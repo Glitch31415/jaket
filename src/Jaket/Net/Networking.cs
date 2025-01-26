@@ -63,7 +63,7 @@ public class Networking
 
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(Random.value < .042f ? "I love you" : "/// MULTIPLAYER VIA A SHOVEL UP YOUR ASS ///");
+            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(Random.value < .042f ? "I fucking despise you" : "/// MULTIPLAYER VIA A SHOVEL UP YOUR ASS ///");
             Loading = true;
         };
         Events.OnLoaded += () =>
