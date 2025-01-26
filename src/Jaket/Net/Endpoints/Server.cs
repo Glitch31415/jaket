@@ -178,7 +178,7 @@ public class Server : Endpoint, ISocketManager
         if (identity.IsSteamId && Administration.Banned.Contains(accId))
         {
             Log.Debug("[Server] Connection is rejected: banned");
-            con.Close();
+            //con.Close();
             return;
         }
 

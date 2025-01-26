@@ -7,7 +7,8 @@ public enum PacketType
     Snapshot,
     /// <summary> Initializes a loading of the level requested by the host. </summary>
     Level,
-    /// <summary> Hey Client, could you leave the lobby please? The host asks you to leave the lobby because you were banned... Cheers~ :heart: </summary>
+    /// <summary> Hey Client, could you leave the lobby please? The host asks you to leave the lobby because you were 
+    /// ... Cheers~ :heart: </summary>
     Ban,
 
     /// <summary> Data of the bullet spawned by a player. </summary>
