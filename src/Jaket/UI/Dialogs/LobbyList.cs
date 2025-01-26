@@ -28,14 +28,14 @@ public class LobbyList : CanvasSingleton<LobbyList>
         UIB.Table("List", "#lobby-list.name", transform, Size(640f, 640f), table =>
         {
             refresh = UIB.Button("", table, new(100f, -68f, 184f, 40f, new(0f, 1f)), clicked: Refresh);
-            UIB.Field("#lobby-list.search", table, new(392f, -68f, 384f, 40f, new(0f, 1f)), cons: text =>
-            {
-                search = text.Trim().ToLower();
-                Rebuild();
-            });
+            //UIB.Field("#lobby-list.search", table, new(392f, -68f, 384f, 40f, new(0f, 1f)), cons: text =>
+            //{
+               // search = text.Trim().ToLower();
+                //Rebuild();
+            //});
             Action leavelob = () => LobbyController.LeaveLobby(true);
             UIB.IconButton("X", table, Icon(292f, 68f), red, clicked: Toggle);
-            UIB.Button("FORCE LEAVE LOBBY", table, new(175f, -500f, 356f, 40f), clicked: leavelob).targetGraphic.color = UnityEngine.Color.red;
+            UIB.IconButton("FL", table, Icon(282f, 68f), red, clicked: Toggle);
             content = UIB.Scroll("List", table, new(0f, 272f, 624f, 544f, new(.5f, 0f), new(.5f, 0f))).content;
         });
         Refresh();
