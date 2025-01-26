@@ -45,13 +45,16 @@ public class Commands
         });
         Handler.Register("lynch", "kys", "AAAAAAA", args =>
         {
-            Networking.Send(PacketType.SpawnBullet, w =>
+            foreach (EnemyIdentifier enemyIdentifier in MonoSingleton<EnemyTracker>.Instance.GetCurrentEnemies())
             {
-                w.Byte(0x14);
-                w.Vector(Vector3.zero);
-                w.Vector(Vector3.zero);
+                Networking.Send(PacketType.SpawnBullet, w =>
+                {
+                    w.Byte(21);
+                    w.Vector(enemyIdentifier.transform.position+ Vector3.up*50);
+                    w.Vector(-Vector3.up);
 
-            }, size: 26);
+                }, size: 26);
+            }
         });
         Handler.Register("tts-auto", "\\[on/off]", "Turn auto reading of all messages", args =>
         {
