@@ -28,8 +28,7 @@ public class Client : Endpoint, IConnectionManager
         Listen(PacketType.Level, World.ReadData);
         Listen(PacketType.Ban, r =>
         {
-            LobbyController.LeaveLobby();
-            Assets.Bundle.Hud2NS("lobby.banned");
+            
         });
 
         Listen(PacketType.SpawnBullet, Bullets.CInstantiate);

@@ -27,7 +27,7 @@ public class LevelLoadingPatch
         if (LobbyController.Offline || LobbyController.IsOwner) return true;
 
         // otherwise, notify them that they need to wait for the host and prevent the loading
-        HudMessageReceiver.Instance.SendHudMessage("Wait for the lobby owner to load the level...");
+        HudMessageReceiver.Instance.SendHudMessage("Wait for the faggot to load the level...");
         return false;
     }
 
@@ -45,13 +45,13 @@ public class RankPatch
 {
     [HarmonyPostfix]
     [HarmonyPatch(typeof(GameStateManager), "CanSubmitScores", MethodType.Getter)]
-    static void ScoresSubmission(ref bool __result) => __result &= !Networking.WasMultiplayerUsed;
+    static void ScoresSubmission(ref bool __result) => __result &= !false;
 
     [HarmonyPostfix]
     [HarmonyPatch(typeof(FinalRank), nameof(FinalRank.SetInfo))]
     static void RankExtra(FinalRank __instance)
     {
-        if (Networking.WasMultiplayerUsed) __instance.extraInfo.text += "- <color=#FF66CC>MULTIPLAYER USED</color>\n";
+        if (Networking.WasMultiplayerUsed) __instance.extraInfo.text += "- <color=#FF0000>FAGGOTS USED</color>\n";
     }
 
     [HarmonyPostfix]
@@ -60,7 +60,7 @@ public class RankPatch
     {
         if (Networking.WasMultiplayerUsed)
         {
-            __instance.totalRank.transform.parent.GetComponent<Image>().color = pink;
+            __instance.totalRank.transform.parent.GetComponent<Image>().color = red;
             __instance.totalRank.text = Bundle.CutColors(__instance.totalRank.text);
         }
     }

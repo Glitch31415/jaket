@@ -63,7 +63,7 @@ public class Networking
 
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(Random.value < .042f ? "I love you" : "/// MULTIPLAYER VIA JAKET ///");
+            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(Random.value < .042f ? "I love you" : "/// MULTIPLAYER VIA A SHOVEL UP YOUR ASS ///");
             Loading = true;
         };
         Events.OnLoaded += () =>
@@ -133,7 +133,7 @@ public class Networking
 
             else if (message.StartsWith("#/s") && byte.TryParse(message.Substring(3), out byte team))
             {
-                if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FRATRICIDE</color>");
+                if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FATASSICIDE</color>");
             }
 
             else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))

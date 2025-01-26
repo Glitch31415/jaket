@@ -15,7 +15,7 @@ public class DiscordPatch
     static void Activity(ref Activity ___cachedActivity)
     {
         // update the discord activity so everyone can know I've been working hard
-        if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via Jaket";
+        if (LobbyController.Online) ___cachedActivity.State = "Playing multiplayer via Slave Labor";
     }
 
     [HarmonyPrefix]
@@ -25,7 +25,7 @@ public class DiscordPatch
         // patch only the most common shops
         if (__instance.name != "Shop") return;
 
-        var button = UIB.DiscordButton("Join Jaket Discord", __instance.transform.GetChild(1).GetChild(1).GetChild(0));
+        var button = UIB.DiscordButton("Leave Jaket Discord", __instance.transform.GetChild(1).GetChild(1).GetChild(0));
         button.transform.localPosition = new(0f, -128f, -20f); // the button is a little stormy
 
         // add ControllerPointer so that the button can be clicked

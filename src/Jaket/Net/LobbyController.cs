@@ -55,8 +55,8 @@ public class LobbyController
 
             if (Lobby.Value.GetData("banned").Contains(AccId.ToString()))
             {
-                LeaveLobby();
-                Bundle.Hud2NS("lobby.banned");
+                // LeaveLobby();
+                // Bundle.Hud2NS("lobby.banned");
             }
             if (IsMultikillLobby(Lobby.Value))
             {
