@@ -49,7 +49,7 @@ public class Commands
             {
                 Networking.Send(PacketType.SpawnBullet, w =>
                 {
-                    w.Byte(21);
+                    w.Byte(23);
                     w.Vector(enemyIdentifier.transform.position+ Vector3.up*50);
                     w.Vector(-Vector3.up);
 
