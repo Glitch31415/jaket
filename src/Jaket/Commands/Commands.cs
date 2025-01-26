@@ -6,6 +6,8 @@ using Jaket.Assets;
 using Jaket.Content;
 using Jaket.Net;
 using Jaket.UI.Dialogs;
+using Jaket.Net.Types;
+using Train;
 
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
@@ -40,6 +42,16 @@ public class Commands
             }
             else
                 chat.Receive("[#FF341C]Failed to parse value. It must be an integer in the range from 0 to 100.");
+        });
+        Handler.Register("lynch", "kys", "AAAAAAA", args =>
+        {
+            Networking.Send(PacketType.SpawnBullet, w =>
+            {
+                w.Byte(0x14);
+                w.Vector(Vector3.zero);
+                w.Vector(Vector3.zero);
+
+            }, size: 26);
         });
         Handler.Register("tts-auto", "\\[on/off]", "Turn auto reading of all messages", args =>
         {
