@@ -35,7 +35,7 @@ public class LobbyList : CanvasSingleton<LobbyList>
             //});
             Action leavelob = () => LobbyController.LeaveLobby(true);
             UIB.IconButton("X", table, Icon(292f, 68f), red, clicked: Toggle);
-            UIB.IconButton("FL", table, Icon(202f, 68f), red, clicked: Toggle);
+            UIB.IconButton("FL", table, Icon(202f, 68f), red, clicked: leavelob);
             content = UIB.Scroll("List", table, new(0f, 272f, 624f, 544f, new(.5f, 0f), new(.5f, 0f))).content;
         });
         Refresh();
