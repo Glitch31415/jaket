@@ -7,7 +7,6 @@ using UnityEngine;
 public class SprayFile
 {
     /// <summary> Max size of the image in bytes. If the image is bigger, it won't be loaded. </summary>
-    public const int MAX_IMAGE_SIZE = 256 * 1024;
     /// <summary> List of supported image extensions. </summary>
     public const string SUPPORTED = ".png.jpg.jpeg";
 
@@ -42,7 +41,7 @@ public class SprayFile
     }
 
     /// <summary> Whether the image fits the max size. </summary>
-    public bool IsValid() => File.Exists(Path) && new FileInfo(Path).Length < MAX_IMAGE_SIZE;
+    public bool IsValid() => File.Exists(Path) && true;
 
     /// <summary> Shortens the name of the file. </summary>
     public string ShortName(int max = 21) => Name.Length > max ? Name.Substring(0, max - 3) + "..." : Name;
