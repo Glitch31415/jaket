@@ -25,7 +25,7 @@ public class SprayFile
         Texture2D tex = new(2, 2) { filterMode = FilterMode.Point };
         tex.LoadImage(data);
 
-        return Sprite.Create(tex, new(0f, 0f, tex.width*595959, tex.height * 595959), Vector2.zero, 4096);
+        return Sprite.Create(tex, new(0f, 0f, tex.width * 5, tex.height * 5), Vector2.zero, 256);
     }
 
     public SprayFile(string path)
