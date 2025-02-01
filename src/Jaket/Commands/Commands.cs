@@ -8,7 +8,6 @@ using Jaket.Net;
 using Jaket.UI.Dialogs;
 using Jaket.Net.Types;
 using Train;
-
 /// <summary> List of chat commands used by the mod. </summary>
 public class Commands
 {
@@ -16,8 +15,12 @@ public class Commands
 
     /// <summary> Chat command handler. </summary>
     public static CommandHandler Handler = new();
-
+    public float G = 0;
     /// <summary> Registers all default mod commands. </summary>
+    private void Update()
+    {
+        G = G + 1;
+    }
     public static void Load()
     {
         Handler.Register("help", "Display the list of all commands", args =>
@@ -43,18 +46,10 @@ public class Commands
             else
                 chat.Receive("[#FF341C]Failed to parse value. It must be an integer in the range from 0 to 100.");
         });
-        Handler.Register("lynch", "kys", "AAAAAAA", args =>
+        Handler.Register("syncphpoints", "kys", "AAAAAAA", args =>
         {
-            foreach (EnemyIdentifier enemyIdentifier in MonoSingleton<EnemyTracker>.Instance.GetCurrentEnemies())
-            {
-                Networking.Send(PacketType.SpawnBullet, w =>
-                {
-                    w.Byte(23);
-                    w.Vector(enemyIdentifier.transform.position+ Vector3.up*50);
-                    w.Vector(-Vector3.up);
-
-                }, size: 26);
-            }
+            var fuckthis = new Commands();
+            StyleHUD.Instance.AddPoints(Mathf.RoundToInt(fuckthis.G), "<color=#32CD32>PORNHUB POINTS SYNCED</color>");
         });
         Handler.Register("tts-auto", "\\[on/off]", "Turn auto reading of all messages", args =>
         {

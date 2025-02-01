@@ -136,10 +136,6 @@ public class Networking
                 if (LocalPlayer.Team == (Team)team) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * StyleCalculator.Instance.airTime), "<color=#32CD32>FATASSICIDE</color>");
             }
 
-            else if (message.StartsWith("#/p") && byte.TryParse(message.Substring(3), out byte teams))
-            {
-                if (LocalPlayer.Team == (Team)teams) StyleHUD.Instance.AddPoints(Mathf.RoundToInt(250f * 1000), "<color=#32CD32>PORNHUB POINTS SYNCED</color>");
-            }
             else if (message.StartsWith("#/r") && byte.TryParse(message.Substring(3), out byte rps))
                 Chat.Instance.Receive($"[#FFA500]{member.Name} has chosen {rps switch { 0 => "rock", 1 => "paper", 2 => "scissors", _ => "nothing" }}");
 
