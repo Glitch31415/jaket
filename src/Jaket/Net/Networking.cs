@@ -60,22 +60,10 @@ public class Networking
 
         Events.OnLoaded += () => WasMultiplayerUsed = LobbyController.Online;
         Events.OnLobbyAction += () => WasMultiplayerUsed |= LobbyController.Online;
-        nrn = Random.value;
-        ns = "";
-        if (nrn > .05f) {
-            ns = "/// MULTIPLAYER VIA A SHOVEL UP YOUR ASS ///";
-        }
-        else {
-            if (nrn > .01f) {
-                ns = "I fucking despise you";
-            }
-            else {
-                ns = "koolaid + glitch <3";
-            }
-        }
+
         Events.OnLoadingStarted += () =>
         {
-            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(ns);
+            if (LobbyController.Online) SceneHelper.SetLoadingSubtext(Random.value < .042f ? "I fucking despise you" : "/// MULTIPLAYER VIA A SHOVEL UP YOUR ASS ///");
             Loading = true;
         };
         Events.OnLoaded += () =>
