@@ -210,7 +210,7 @@ public class UIB
     public static Button TeamButton(Team team, Transform parent, Rect r, Action clicked = null)
     {
         var img = Image(team.ToString(), parent, r, team.Color());
-        if (team == Team.Pink) Text("UwU", img.transform, r.Text, Dark(pink));
+        if (team == Team.Pink) Text("kys", img.transform, r.Text, Dark(pink));
         return Component<Button>(img.gameObject, button =>
         {
             button.targetGraphic = img;

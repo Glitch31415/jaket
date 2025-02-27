@@ -70,7 +70,7 @@ public class Networking
                 ns = "I fucking despise you";
             }
             else {
-                ns = "koolaid + glitch <3";
+                ns = "koolaid + a gun to the roof of my mouth <3";
             }
         }
         Events.OnLoadingStarted += () =>
