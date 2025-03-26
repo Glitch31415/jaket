@@ -1,20 +1,17 @@
 global using static Jaket.Tools;
-
-global using IntPtr = System.IntPtr;
-global using Array = System.Array;
-global using Exception = System.Exception;
+global using Ptr = System.IntPtr;
 
 namespace Jaket;
 
 using HarmonyLib;
 using Steamworks;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
-using Object = UnityEngine.Object;
-
 using Jaket.Assets;
+using Jaket.Content;
 using Jaket.IO;
 using Jaket.Net;
 using Jaket.Net.Types;
@@ -29,7 +26,7 @@ public static class Tools
     /// <summary> Account id of the local player. </summary>
     public static uint AccId;
 
-    /// <summary> How could I know that Steamworks do not cache this value? </summary>
+    /// <summary> How could I know that Steamworks does not cache this value? </summary>
     public static void CacheAccId() => AccId = Id.AccountId;
     /// <summary> Returns the name of the player with the given AccountId. </summary>
     public static string Name(uint id) => new Friend(id | 76561197960265728u).Name;
@@ -45,7 +42,6 @@ public static class Tools
     /// <summary> Loads the given scene. </summary>
     public static void LoadScn(string scene) => SceneHelper.LoadScene(scene);
 
-    /// <summary> Whether the given object is on a scene or is it just an asset. </summary>
     public static bool IsReal(GameObject obj) => obj.scene.name != null && obj.scene.name != "DontDestroyOnLoad";
     public static bool IsReal(Component comp) => IsReal(comp.gameObject);
 
@@ -118,21 +114,6 @@ public static class Tools
     }
 
     #endregion
-    #region iteration
-
-    /// <summary> Iterates each object in the given enumerable. </summary>
-    public static void Each<T>(this System.Collections.Generic.IEnumerable<T> seq, Cons<T> cons)
-    {
-        foreach (var item in seq) cons(item);
-    }
-
-    /// <summary> Iterates each object in the given enumerable that are suitable for the given predicate.. </summary>
-    public static void Each<T>(this System.Collections.Generic.IEnumerable<T> seq, Pred<T> pred, Cons<T> cons)
-    {
-        foreach (var item in seq) if (pred(item)) cons(item);
-    }
-
-    #endregion
     #region within
 
     public static bool Within(Vector3 a, Vector3 b, float dst = 1f) => (a - b).sqrMagnitude < dst * dst;
@@ -157,10 +138,73 @@ public static class Tools
     }
 
     #endregion
+    #region enumerables
+
+    /// <summary> Returns the index of the object in the given enumerable. </summary>
+    public static int IndexOf<T>(this IEnumerable<T> seq, T obj)
+    {
+        int index = 0;
+        foreach (var item in seq)
+        {
+            if (item.Equals(obj)) return index;
+            index++;
+        }
+        return -1;
+    }
+
+    /// <summary> Returns the index of the object in the given enumerable that is suitable for the given predicate. </summary>
+    public static int IndexOf<T>(this IEnumerable<T> seq, Pred<T> pred)
+    {
+        int index = 0;
+        foreach (var item in seq)
+        {
+            if (pred(item)) return index;
+            index++;
+        }
+        return -1;
+    }
+
+    /// <summary> Iterates each object in the given enumerable. </summary>
+    public static void Each<T>(this IEnumerable<T> seq, Cons<T> cons)
+    {
+        foreach (var item in seq) cons(item);
+    }
+
+    /// <summary> Iterates each object in the given enumerable that are suitable for the given predicate. </summary>
+    public static void Each<T>(this IEnumerable<T> seq, Pred<T> pred, Cons<T> cons)
+    {
+        foreach (var item in seq) if (pred(item)) cons(item);
+    }
+
+    /// <summary> Whether all of the elements match the given predicate. </summary>
+    public static bool All<T>(this IEnumerable<T> seq, Pred<T> pred)
+    {
+        foreach (var item in seq) if (!pred(item)) return false;
+        return true;
+    }
+
+    /// <summary> Whether any of the elements match the given predicate. </summary>
+    public static bool Any<T>(this IEnumerable<T> seq, Pred<T> pred)
+    {
+        foreach (var item in seq) if (pred(item)) return true;
+        return false;
+    }
+
+    /// <summary> Returns the object in the given enumerable that is suitable for the given predicate or default. </summary>
+    public static T Find<T>(this IEnumerable<T> seq, Pred<T> pred, Prov<T> defaultProv = null)
+    {
+        foreach (var item in seq) if (pred(item)) return item;
+        return defaultProv == null ? default : defaultProv();
+    }
+
+    /// <summary> Clears the given enumerable array by filling it with default values. </summary>
+    public static void Clear<T>(this T[] seq) => System.Array.Clear(seq, 0, seq.Length);
+
+    #endregion
     #region delegates
 
     /// <summary> Performs an abstract action without any arguments or return value. </summary>
-    public delegate void Action();
+    public delegate void Runnable();
 
     /// <summary> Consumes one value. </summary>
     public delegate void Cons<T>(T t);
@@ -171,11 +215,44 @@ public static class Tools
     /// <summary> Predicate that consumes one value. </summary>
     public delegate bool Pred<T>(T t);
 
-    /// <summary> Provider of one value. </summary>
+    /// <summary> Provider that returns one value. </summary>
     public delegate T Prov<T>();
 
-    /// <summary> Function that consumes one value and returns another one. </summary>
+    /// <summary> Function that consumes one value and returns another. </summary>
     public delegate K Func<T, K>(T t);
+
+    #endregion
+    #region entities
+
+    /// <summary> Whether the type is a player. </summary>
+    public static bool IsPlayer(this EntityType type) => type == EntityType.Player;
+
+
+
+    /// <summary> Whether the type is an enemy. </summary>
+    public static bool IsEnemy(this EntityType type) => type >= EntityType.Filth && type <= EntityType.Brain;
+
+    /// <summary> Whether the type is an enemy and can be spawn only once. </summary>
+    public static bool IsHuge(this EntityType type) => type >= EntityType.FleshPrison && type <= EntityType.SisyphusPrime;
+
+    /// <summary> Whether the type is an enemy and can be shot by a coin. </summary>
+    public static bool IsTargetable(this EntityType type) => IsEnemy(type) && type != EntityType.Idol && type != EntityType.CancerousRodent;
+
+
+
+    /// <summary> Whether the type is an item. </summary>
+    public static bool IsItem(this EntityType type) => type >= EntityType.BlueSkull && type <= EntityType.Sowler;
+
+    /// <summary> Whether the type is a bait or fish. </summary>
+    public static bool IsFish(this EntityType type) => type >= EntityType.AppleBait && type <= EntityType.BurntStuff;
+
+    /// <summary> Whether the type is a plushie. </summary>
+    public static bool IsPlushie(this EntityType type) => type >= EntityType.Hakita && type <= EntityType.Sowler;
+
+
+
+    /// <summary> Whether the type is a bullet. </summary>
+    public static bool IsBullet(this EntityType type) => type >= EntityType.Coin;
 
     #endregion
 }

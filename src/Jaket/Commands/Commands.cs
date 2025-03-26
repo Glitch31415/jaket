@@ -82,12 +82,12 @@ public class Commands
         Handler.Register("plushie", "<name>", "Spawn a plushie by name", args =>
         {
             string name = args.Length == 0 ? null : args[0].ToLower();
-            int index = Array.FindIndex(GameAssets.PlushiesButReadable, plushie => plushie.Contains(name));
+            int index = GameAssets.PlushiesButReadable.IndexOf(n => n.Contains(name));
 
             if (index == -1)
                 chat.Receive($"[#FF341C]Plushie named {name} not found.");
             else
-                Inst(Items.Prefabs[EntityType.PlushieOffset + index - EntityType.ItemOffset], NewMovement.Instance.transform.position);
+                Inst(Items.Prefabs[EntityType.Hakita + index - EntityType.BlueSkull], NewMovement.Instance.transform.position);
         });
 
         Handler.Register("level", "<layer> <level> / sandbox / cyber grind / museum", "Load a level", args =>
