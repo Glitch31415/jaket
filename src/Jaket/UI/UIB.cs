@@ -63,22 +63,6 @@ public class UIB
 
     #region base
 
-    /// <summary> Adds a component to the given object and returns it. Just for convenience. </summary>
-    public static T Component<T>(GameObject obj, Cons<T> cons) where T : Component
-    {
-        var c = obj.AddComponent<T>();
-        cons(c);
-        return c;
-    }
-
-    /// <summary> Gets and optionally sets renderer properties. </summary>
-    public static void Properties(Renderer renderer, Cons<MaterialPropertyBlock> cons, bool set = false)
-    {
-        renderer.GetPropertyBlock(block);
-        cons(block);
-        if (set) renderer.SetPropertyBlock(block);
-    }
-
     /// <summary> Adds a rect at the specified position with the given size and anchor. </summary>
     public static RectTransform Rect(string name, Transform parent, Rect r) =>
         Component<RectTransform>(Create(name, parent), rect =>
