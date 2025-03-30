@@ -2,7 +2,6 @@
 
 using BepInEx;
 using HarmonyLib;
-using System.IO;
 using UnityEngine;
 
 using Jaket.Assets;
@@ -17,7 +16,7 @@ using Jaket.World;
 [BepInPlugin("xzxADIxzx.Jaket", "Jaket", Version.CURRENT)]
 public class PluginLoader : BaseUnityPlugin
 {
-    private void Awake() => Events.InternalSceneLoaded = () => (Plugin.Instance ?? Create<Plugin>("Jaket")).Location = Path.GetDirectoryName(Info.Location);
+    private void Awake() => Events.InternalSceneLoaded = () => (Plugin.Instance ?? Create<Plugin>("Jaket")).Location = Info.Location;
 }
 
 /// <summary> Plugin main class. Essentially only initializes all other components. </summary>
@@ -35,7 +34,7 @@ public class Plugin : MonoBehaviour
     private void Start()
     {
         Log.Load();
-        Log.Info("Loading jaket...");
+        Log.Info("[INIT] Jaket bootloader has been created");
 
         Events.Load();
         Events.OnMainMenuLoaded += Init;
@@ -45,9 +44,21 @@ public class Plugin : MonoBehaviour
 
     private void Init()
     {
+        if (Initialized) return;
+
+        Log.Info("[INIT] Loading content...");
         Tex.Load();
 
-        if (Initialized = true) return;
+        Log.Info("[INIT] Initializing network components...");
+        // TODO obviously
+
+        Log.Info("[INIT] Running postinit hooks...");
+        // TODO Harmony & Version goes here
+
+        Initialized = true;
+        Log.Info("[INIT] Jaket has been initialized");
+
+        if (true) return;
 
         // notify players about the availability of an update so that they no longer whine to me about something not working
         Version.Check4Update();
