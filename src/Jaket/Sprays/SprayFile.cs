@@ -7,12 +7,8 @@ using Jaket.IO;
 /// <summary> Represents a spray stored in either memory or a local file. </summary>
 public class SprayFile
 {
-<<<<<<< HEAD
-    /// <summary> Max size of the image in bytes. If the image is bigger, it won't be loaded. </summary>
-=======
     /// <summary> Max size of the image in bytes. If the image is bigger, it will not be loaded. </summary>
     public const int MAX_IMAGE_SIZE = 512 * 1024;
->>>>>>> e8f22d9ef406e5a10dcde62cf6cbab25866ad333
     /// <summary> List of supported image extensions. </summary>
     public const string SUPPORTED = "*.png#*.jpg#*.jpeg";
 
@@ -35,12 +31,7 @@ public class SprayFile
     {
         Texture2D tex = new(2, 2) { filterMode = FilterMode.Point };
         tex.LoadImage(data);
-<<<<<<< HEAD
-
-        return Sprite.Create(tex, new(0f, 0f, tex.width * 5, tex.height * 5), Vector2.zero, 256);
-=======
         return Sprite.Create(tex, new(0f, 0f, tex.width, tex.height), Vector2.zero, 256f);
->>>>>>> e8f22d9ef406e5a10dcde62cf6cbab25866ad333
     }
 
     public SprayFile(string path)
@@ -54,13 +45,4 @@ public class SprayFile
         Name = Path = "Net";
         this.data = data;
     }
-<<<<<<< HEAD
-
-    /// <summary> Whether the image fits the max size. </summary>
-    public bool IsValid() => File.Exists(Path) && true;
-
-    /// <summary> Shortens the name of the file. </summary>
-    public string ShortName(int max = 21) => Name.Length > max ? Name.Substring(0, max - 3) + "..." : Name;
-=======
->>>>>>> e8f22d9ef406e5a10dcde62cf6cbab25866ad333
 }
