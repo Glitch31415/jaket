@@ -3,6 +3,8 @@ namespace Jaket.UI.Lib;
 using UnityEngine;
 using UnityEngine.UI;
 
+using ImageType = UnityEngine.UI.Image.Type;
+
 using Jaket.Content;
 
 using static Pal;
@@ -68,6 +70,24 @@ public class Bar : MonoBehaviour
     public Text Text(string text, float spc, int size = 24, Color? color = null, TextAnchor align = TextAnchor.MiddleCenter) =>
         Builder.Text(Resolve("Text", spc), text, size, color ?? white, align);
 
+    /// <summary> Adds a pair of labels with different alignment, horizontal only. </summary>
+    public void Text(string text, float spc, out Text display, int size = 24, Color? color = null)
+    {
+        var txt = Builder.Text(Resolve("Pair", spc),                  text, size, color ?? white, TextAnchor.MiddleLeft).transform;
+        display = Builder.Text(Builder.Rect("Display", txt, Rect.Fill), "", size, color ?? white, TextAnchor.MiddleRight);
+    }
+
+    #endregion
+    #region other
+
+    /// <summary> Adds an image with the given sprite, rarely used. </summary>
+    public Image Image(Sprite sprite, float spc, Color? color = null, ImageType type = ImageType.Sliced, float? multiplier = null) =>
+        Builder.Image(Resolve("Image", spc), sprite, color ?? white, type, multiplier);
+
+    /// <summary> Adds a toggle also known as checkbox, pretty useful. </summary>
+    public Toggle Toggle(string text, Cons<bool> callback) =>
+        Builder.Toggle(Resolve("Toggle", 32f), text, 24, white, callback);
+
     #endregion
     #region button
 
@@ -76,11 +96,11 @@ public class Bar : MonoBehaviour
         Builder.TextButton(Resolve("TextButton", 40f), Tex.Large, color ?? white, text, 24, align, callback);
 
     /// <summary> Adds a text button, but it's filled with the color. </summary>
-    public Button FillButton(string text, Color color, Runnable callback = null) =>
+    public Button FillButton(string text, Color color, Runnable callback) =>
         Builder.TextButton(Resolve("FillButton", 40f), Tex.Fill, color, text, 24, TextAnchor.MiddleCenter, callback);
 
     /// <summary> Adds a text button, but it's filled with the color of the given team. </summary>
-    public Button TeamButton(Team team, Runnable callback = null) =>
+    public Button TeamButton(Team team, Runnable callback) =>
         Builder.TextButton(Resolve("TeamButton", 80f), Tex.Fill, team.Color(), team == Team.Pink ? "UwU" : "", 24, TextAnchor.MiddleCenter, callback);
 
     /// <summary> Adds a button that corresponds to the style of Discord. </summary>
@@ -94,6 +114,24 @@ public class Bar : MonoBehaviour
     /// <summary> Adds a button that corresponds to the style of Buy Me a Coffee. </summary>
     public Button CoffeeButton(string text) =>
         FillButton(text, bmac, () => Application.OpenURL("https://www.buymeacoffee.com/adithedev"));
+
+    #endregion
+    #region slider
+
+    /// <summary> Adds a slider, it has no means to display its value. </summary>
+    public Slider Slider(int min, int max, Cons<int> callback) =>
+        Builder.Slider(Resolve("Slider", 40f), min, max, white, callback);
+
+    /// <summary> Adds a slider, also builds a pair of labels to display the slider value. </summary>
+    public Slider Slider(int min, int max, Cons<int> callback, string text, Func<int, string> format)
+    {
+        Text(text, 32f, out var display);
+        return Slider(min, max, value =>
+        {
+            display.text = format(value);
+            callback(value);
+        });
+    }
 
     #endregion
 }
